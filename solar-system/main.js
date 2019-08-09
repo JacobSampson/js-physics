@@ -1,8 +1,8 @@
 /* Parameters */
 
-const updateFrequency = 20;
-const maxInitVelocity = 2;
-const density = 5;
+const updateFrequency = 10;
+const maxInitVelocity = 1;
+const density = 1;
 const gravity = 6.67e-11;
 
 
@@ -74,6 +74,10 @@ class Planet {
         return this._density;
     }
 
+    getDistance(planet) {
+        return Math.sqrt(Math.abs(this.posX - planet.posX) ** 2 + Math.abs(this.posY - planet.posY) ** 2)
+    }
+
     updateMass() {
         this.mass = this.density * (4 / 3) * Math.PI * ((getComputedStyle(this.planet).width.slice(0, -2)) ** 3);
         return this.mass;
@@ -97,11 +101,20 @@ class Planet {
     }
 
     calcVelocities(velX, velY) {
+        let gravityVec = 0;
+
         this.planets.forEach((planet) => {
             if (planet === this) return;
 
-            velX += ((gravity * this.mass * planet.mass) / Math.abs(this.posX - planet.posX)) * updateFrequency;
-            velY += ((gravity * this.mass * planet.mass) / Math.abs(this.posY - planet.posY)) * updateFrequency
+            gravityVec += ((gravity * this.mass * planet.mass) / this.getDistance(planet)) * updateFrequency;
+
+            let diffX = planet.posX - this.posX;
+            let diffY = planet.posY - this.posY;
+
+            let angle = Math.atan(diffY / diffX);
+
+            velX += Math.cos(angle) * gravityVec;
+            velY += Math.sin(angle) * gravityVec;
         });
 
         return [velX, velY]
@@ -134,8 +147,8 @@ function initPlanet(system, planets, planet) {
     let initX = Math.floor(Math.random() * maxWidth);
     let initY = Math.floor(Math.random() * maxHeight);
 
-    let initVelX = Math.ceil(Math.random() * maxInitVelocity);
-    let initVelY = Math.ceil(Math.random() * maxInitVelocity);
+    let initVelX = Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
+    let initVelY = Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
 
     planet.style.transform = `translate(${initX}px, ${initY}px)`;
 
