@@ -17,24 +17,32 @@ body {
 }
 
 .solar-system__planet {
-  width: 20px;
-  height: 20px;
+  width: 5px;
+  height: 5px;
   position: absolute;
   border-radius: 50%;
 }
 
 .solar-system__planet:nth-child(1) {
   background-color: #2b2b88;
+  width: 50px;
+  height: 50px;
 }
 
 .solar-system__planet:nth-child(2) {
   background-color: #b83030;
+  width: 5px;
+  height: 5px;
 }
 
 .solar-system__planet:nth-child(3) {
   background-color: #db893c;
+  width: 10px;
+  height: 10px;
 }
 
 .solar-system__planet:nth-child(4) {
   background-color: #2cce42;
+  width: 20px;
+  height: 20px;
 }

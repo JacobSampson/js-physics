@@ -1,22 +1,53 @@
 /* Parameters */
 
 const updateFrequency = 10;
-const maxInitVelocity = 1;
-const density = 1;
+const maxInitVelocity = 2;
+const density = 500000;
 const gravity = 6.67e-11;
-
+const properties = [
+    {
+        posX: 750,
+        posY: 300,
+        velX: 0,
+        velY: 0,
+        density: 50000000
+    },
+    {
+        posX: 750,
+        posY: 600,
+        velX: 5,
+        velY: 0
+    },
+    {
+        posX: 750,
+        posY: 50,
+        velX: -5,
+        velY: 0
+    },
+    {
+        posX: 750,
+        posY: 100,
+        velX: -5,
+        velY: 0
+    }
+];
 
 class Planet {
     constructor(system, planets, planet, planetConfig) {
+        // Elements
         this._system = system;
         this._planets = planets;
         this._planet = planet;
+
+        // Initial state
         this._posX = planetConfig.posX;
         this._posY = planetConfig.posY;
         this._velX = planetConfig.velX;
         this._velY = planetConfig.velY;
-        this._density = planet.density || density;
-        this.mass = this.updateMass();
+
+        // Properties
+        this._density = planetConfig.density || density;
+        this._mass = this.updateMass();
     }
 
     get system() {
@@ -95,26 +126,25 @@ class Planet {
         this.posX += this.velX;
         this.posY += this.velY;
         
-        console.log(this.posX)
-
         this.planet.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
     }
 
     calcVelocities(velX, velY) {
-        let gravityVec = 0;
-
         this.planets.forEach((planet) => {
             if (planet === this) return;
 
-            gravityVec += ((gravity * this.mass * planet.mass) / this.getDistance(planet)) * updateFrequency;
+            let gravityVec = ((gravity * this.mass * planet.mass) / (this.getDistance(planet) ** 2)) / this.mass * updateFrequency;
 
             let diffX = planet.posX - this.posX;
             let diffY = planet.posY - this.posY;
 
             let angle = Math.atan(diffY / diffX);
 
-            velX += Math.cos(angle) * gravityVec;
-            velY += Math.sin(angle) * gravityVec;
+            let deltaVelX = Math.abs(Math.cos(angle) * gravityVec);
+            let deltaVelY = Math.abs(Math.sin(angle) * gravityVec);
+
+            velX += diffX > 0 ? deltaVelX : -deltaVelX;
+            velY += diffY > 0 ? deltaVelY : -deltaVelY;
         });
 
         return [velX, velY]
@@ -127,28 +157,15 @@ class Planet {
     }
 }
 
-(function () {
-    console.log("Initialize");
-    let solarSystem = document.querySelector('.solar-system');
-    let documentPlanets = document.querySelectorAll('.solar-system__planet');
-
-    let planets = [];
-    documentPlanets.forEach(planet => {
-        planets.push(initPlanet(solarSystem, planets, planet));
-    });
-
-    setInterval(() => { updateSystem(solarSystem, planets) }, updateFrequency);
-})();
-
-function initPlanet(system, planets, planet) {
+function initPlanet(system, planets, planet, properties) {
     let maxWidth = getComputedStyle(system).width.slice(0, -2) - getComputedStyle(planet).width.slice(0, -2);
     let maxHeight = getComputedStyle(system).height.slice(0, -2) - getComputedStyle(planet).height.slice(0, -2);
 
-    let initX = Math.floor(Math.random() * maxWidth);
-    let initY = Math.floor(Math.random() * maxHeight);
+    let initX = properties.posX || Math.floor(Math.random() * maxWidth);
+    let initY = properties.posY || Math.floor(Math.random() * maxHeight);
 
-    let initVelX = Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
-    let initVelY = Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
+    let initVelX = properties.velX || Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
+    let initVelY = properties.velY || Math.ceil(Math.random() * 2 * maxInitVelocity) - maxInitVelocity;
 
     planet.style.transform = `translate(${initX}px, ${initY}px)`;
 
@@ -156,7 +173,8 @@ function initPlanet(system, planets, planet) {
         posX: initX,
         posY: initY,
         velX: initVelX,
-        velY: initVelY
+        velY: initVelY,
+        density: properties.density
     });
 }
 
@@ -164,5 +182,16 @@ function updateSystem(system, planets) {
     planets.forEach(planet => {
         planet.update();
     });
-    console.log("Update");
 }
+
+(function () {
+    let solarSystem = document.querySelector('.solar-system');
+    let documentPlanets = document.querySelectorAll('.solar-system__planet');
+
+    let planets = [];
+    documentPlanets.forEach((planet, index) => {
+        planets.push(initPlanet(solarSystem, planets, planet, properties[index]));
+    });
+
+    setInterval(() => { updateSystem(solarSystem, planets) }, updateFrequency);
+})();

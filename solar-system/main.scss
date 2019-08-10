@@ -4,6 +4,11 @@
 
 /* Base */
 
+$small-size: 5px;
+$medium-size: 10px;
+$large-size: 20px;
+$x-large-size: 50px;
+
 body {
     margin: 0 10%;
     padding: 0;
@@ -24,22 +29,30 @@ body {
 }
 
 .solar-system__planet {
-    width: 20px;
-    height: 20px;
+    width: 5px;
+    height: 5px;
     position: absolute;
     
     border-radius: 50%;
     
     &:nth-child(1) {
         background-color: rgb(43, 43, 136);
+        width: $x-large-size;
+        height: $x-large-size;
     }
     &:nth-child(2) {
         background-color: rgb(184, 48, 48);
+        width: $small-size;
+        height: $small-size;
     }
     &:nth-child(3) {
         background-color: rgb(219, 137, 60);
+        width: $medium-size;
+        height: $medium-size;
     }
     &:nth-child(4) {
         background-color: rgb(44, 206, 66);
+        width: $large-size;
+        height: $large-size;
     }
 }
