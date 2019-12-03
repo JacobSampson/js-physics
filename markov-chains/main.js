@@ -147,7 +147,7 @@ class MarkovCell {
     }
 
     update() {
-        this.htmlCell.innerHTML = `${this.value + 1}:${this.timesVisited}`;
+        this.htmlCell.innerHTML = `${this.value + 1} [${this.timesVisited}]`;
     }
     
     visit() {
@@ -210,7 +210,10 @@ class FreqGraph {
                 let percentage = (element.timesVisited / this.table.total);
 
                 bar.style.height = `${percentage * this.maxHeight}px`;
-                bar.innerHTML = `<div class=${this.style}__label>${(100 * percentage).toFixed(0)}%</div>`;
+                bar.innerHTML = `
+                    <h4 class=${this.style}__id>${element.id + 1}</h4>
+                    <p class=${this.style}__label>${(100 * percentage).toFixed(0)}%</p>
+                `;
             })
         }, 10);
     }

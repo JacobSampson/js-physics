@@ -3,6 +3,9 @@ body {
   margin: 0 10%;
   padding: 0;
   display: block;
+  color: black;
+  background-color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 /* Markov chain */
@@ -22,7 +25,7 @@ body {
 .markov-chain__cell {
   width: 5em;
   height: 5em;
-  background-color: red;
+  background-color: #21bb6e;
   color: white;
   text-align: center;
   border-radius: 50%;
@@ -32,12 +35,12 @@ body {
 }
 
 .markov-chain__cell:hover {
-  background-color: black;
+  background-color: #0f4d21;
   cursor: pointer;
 }
 
 .markov-chain__cell--visiting {
-  background-color: blue;
+  background-color: #0077ff;
 }
 
 /* Frequency graph */
@@ -62,14 +65,20 @@ body {
 }
 
 .freq-graph__bar {
-  height: 50px;
+  height: 20em;
   width: 100%;
   margin: 0.1em;
-  background-color: green;
+  background-color: #0077ff;
 }
 
 .freq-graph__label {
   top: 100%;
   position: relative;
-  color: green;
+  color: #21bb6e;
+}
+
+.freq-graph__id {
+  text-align: center;
+  position: relative;
+  color: #21bb6e;
 }

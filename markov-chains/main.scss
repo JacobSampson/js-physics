@@ -9,6 +9,10 @@ body {
     margin: 0 10%;
     padding: 0;
     display: block;
+
+    color: black;
+    background-color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 /* Markov chain */
@@ -33,7 +37,7 @@ body {
         width: $width / 4;
         height: $width / 4;
 
-        background-color: red;
+        background-color: rgb(33, 187, 110);
         color: white;
         text-align: center;
         border-radius: 50%;
@@ -42,12 +46,12 @@ body {
         transition: 1s cubic-bezier(0.19, 1, 0.22, 1);
 
         &:hover {
-            background-color: black;
+            background-color: rgb(15, 77, 33);
             cursor: pointer;
         }
 
         &--visiting {
-            background-color: blue;
+            background-color: rgb(0, 119, 255);
         }
     }
 }
@@ -67,16 +71,23 @@ body {
     }
 
     &__bar {
-        height: 50px;
+        height: 20em;
         width: 100%;
         margin: 0.1em;
 
-        background-color: green;
+        background-color: rgb(0, 119, 255);
     }
 
     &__label {
         top: 100%;
         position: relative;
-        color: green;
+        color: rgb(33, 187, 110);
+    }
+
+    &__id {
+        text-align: center;
+        position: relative;
+
+        color: rgb(33, 187, 110);
     }
 }
