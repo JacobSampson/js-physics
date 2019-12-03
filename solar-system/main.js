@@ -1,6 +1,6 @@
 /* Parameters */
 
-const updateFrequency = 10;
+const updateFrequency = 1;
 const maxInitVelocity = 2;
 const density = 500000;
 const gravity = 6.67e-11;
